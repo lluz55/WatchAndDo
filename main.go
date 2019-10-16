@@ -2,11 +2,20 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
-	"github.com/inancgumus/screen"
 	"log"
 	"os"
 	"time"
+
+	qrcodeTerminal "github.com/Baozisoftware/qrcode-terminal-go"
+	"github.com/inancgumus/screen"
+)
+
+var (
+	port                int  // Server port
+	opensDefaultBrowser bool // Opens browser
+	showQr              bool // Shows QR Code in console to open browser
 )
 
 func startServer() {
@@ -19,6 +28,15 @@ func startServer() {
 	if err != nil {
 		log.Println(err)
 	}
+
+	localAddr := fmt.Sprintf("http://%s:%d", server.addr, server.port)
+
+	fmt.Printf("Listening on %s ...\n", localAddr)
+
+	openBrowser(fmt.Sprintf("%s/wad/", localAddr))
+
+	qr := qrcodeTerminal.New()
+	qr.Get(localAddr).Print()
 
 	// handles asynchronous server errors
 	server.listenErrs = func(err error) {
@@ -36,29 +54,25 @@ func startServer() {
 }
 
 func main() {
-	// TODO: REMOVE
 	screen.Clear()
 	screen.MoveTopLeft()
 
 	// WebSocket mode
-	wsMode := false
+	var wsMode bool
 
-	// TODO: Use flag to parse os args
-	// checks if has ws arg
-	if len(os.Args) > 1 {
-		for i := range os.Args {
-			if os.Args[i] == "--ws" {
-				wsMode = true
-			}
-		}
-	}
+	flag.BoolVar(&wsMode, "ws", false, "For configure and listen on webpage")
+	flag.BoolVar(&opensDefaultBrowser, "o", false, "Opens default browser")
+	flag.BoolVar(&showQr, "qr", false, "Shows QR CODE in console to open default browser")
+
+	flag.Parse()
 
 	// Only work in ws mode for now
 	if !wsMode {
-		fmt.Println("<!> Only web mode implemented yet\n>>> Exiting...")
+		fmt.Println("[!] Only web mode implemented yet\n\tExiting...")
 		os.Exit(1)
 	}
 
+	// Start server to connect with listeners
 	startServer()
 
 	for {

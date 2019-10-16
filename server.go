@@ -3,12 +3,13 @@ package main
 import (
 	// "errors"
 	"fmt"
-	"github.com/gorilla/websocket"
 	"math/rand"
 	"net"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 // MessageSend through ws listerners
@@ -119,7 +120,8 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 // Listen on choosen port
 func (s *Server) listen() {
 	go func() {
-		http.HandleFunc("/", s.handler)
+		http.HandleFunc("/wad/", index)
+		http.HandleFunc("/ws", s.handler)
 		err := http.ListenAndServe(fmt.Sprintf(":%d", s.port), nil)
 		if err != nil {
 			s.listenErrs(fmt.Errorf("Listen and serve error: %s", err))
