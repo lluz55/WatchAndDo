@@ -17,3 +17,8 @@ This simple application provides an easy way to watch files changes and executa 
 ```$ wad.exe -f test.txt -c "xcopy test.txt c:\"```
 
 This will copy the ```test.txt``` file from current folder into ```c:\``` drive
+
+## TODO
+- [ ] Watches for changes in some folder
+- [ ] Allow watch multiple files
+- [ ] Be able to run in background
