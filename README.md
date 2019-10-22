@@ -2,6 +2,17 @@
 
 This simple application provides an easy way to watch files changes and executa some commnad when it happens
 
+
+## Instalation
+1. clone this repo  
+``` $ git clone github.com/lluz55/WatchAndDo```
+2. Enter into clone folder  
+``` $ cd WatchAndDo```
+3. Build
+``` $ go build -ldflags="-s -w"```  
+4. Run  
+``` $ .\wad.exe```
+
 ## Usage
 ```
   -c string
