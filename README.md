@@ -8,7 +8,7 @@ This simple application provides an easy way to watch files changes and executa 
 ``` $ git clone github.com/lluz55/WatchAndDo```
 2. Enter into clone folder  
 ``` $ cd WatchAndDo```
-3. Build
+3. Build  
 ``` $ go build -ldflags="-s -w"```  
 4. Run  
 ``` $ .\wad.exe```
